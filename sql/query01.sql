@@ -1,8 +1,17 @@
--- Retrieve the name and Date of all Badges obtained by
--- the user with ID 3 awarded after 2011,
--- ordered by ascending date
--- 1.1 marks: <5 operators
--- 1.0 marks: <6 operators
+-- Retrieve the state with the median number of
+-- employees in 'Education Services'
+-- 1.1 marks: < 10 operators
+-- 1.0 marks: < 11 operators
 -- 0.8 marks: correct answer
 
 -- Replace this comment line with the actual query
+
+select State.`abbr`, sum(CountyIndustries.`employees`) as `TotalEmployees` 
+from `CountyIndustries`
+join `County` on County.`fips` = CountyIndustries.`county`
+join `State` on State.`id` = County.`state`
+join `Industry` on Industry.`id` = CountyIndustries.`industry`
+and Industry.`name` = 'Educational Services'
+group by County.`state`
+order by sum(CountyIndustries.`employees`) asc 
+limit 1 offset 25;
